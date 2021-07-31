@@ -8,7 +8,7 @@ class ArxivAPI(commands.Cog):
     def __init__(self,client):
         self.client=client
 
-    @commands.command()
+    @commands.command(aliases=['ars'])
     async def arxivshow(self,ctx,*,search):
         query=search.replace(" ", "+")
         url = f'http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=1'
@@ -38,7 +38,7 @@ class ArxivAPI(commands.Cog):
             await ctx.send(embed=embed)
             await ctx.send('.................................................................................................................................................')
 
-    @commands.command()
+    @commands.command(aliases=['arsl'])
     async def arxivshowlud(self,ctx,*,search):
         query=search.replace(" ", "+")
         url = f'http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=5&sortBy=lastUpdatedDate&sortOrder=ascending'
@@ -65,7 +65,7 @@ class ArxivAPI(commands.Cog):
             await ctx.send(embed=embed)
             await ctx.send('.................................................................................................................................................')
 
-    @commands.command()
+    @commands.command(aliases=['arsr'])
     async def arxivshowr(self,ctx,*,search):
         query=search.replace(" ", "+")
         url = f'http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=5&sortBy=relevance&sortOrder=ascending'
@@ -92,7 +92,7 @@ class ArxivAPI(commands.Cog):
             await ctx.send(embed=embed)
             await ctx.send('.................................................................................................................................................')
 
-    @commands.command()
+    @commands.command(aliases=['arsd'])
     async def arxivshowsd(self,ctx,*,search):
         query=search.replace(" ", "+")
         url = f'http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=5&sortBy=submittedDate&sortOrder=ascending'
@@ -119,7 +119,7 @@ class ArxivAPI(commands.Cog):
             await ctx.send(embed=embed)
             await ctx.send('.................................................................................................................................................')
 
-    @commands.command()
+    @commands.command(aliases=['arss'])
     async def arxivshowsumm(self,ctx,*,search):
         query=search.replace(" ", "+")
         url = f'http://export.arxiv.org/api/query?search_query=all:{query}&start=0&max_results=5'

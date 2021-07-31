@@ -1,8 +1,14 @@
+from re import sub
+import re
 import discord
 import os
+from discord import colour
 import kaggle
 import requests
 from discord.ext import commands
+from kaggle.api.kaggle_api_extended import KaggleApi
+api = KaggleApi()
+api.authenticate()
 
 class KaggleAPI(commands.Cog):
     def __init__(self,client):
@@ -10,9 +16,38 @@ class KaggleAPI(commands.Cog):
 
     @commands.command()
     async def list(self,ctx):
-        print(os.system('kaggle competitions list'))
-        #await ctx.send(os.system('kaggle competitions list'))
+        listcomp=api.competitions_list_with_http_info(async_req=True)
+        tup=listcomp.get()
+        c=0
+        for submission in tup[0]:
+            c+=1
+            title=submission.get('title')
+            url=submission.get('url')
+            category=submission.get('category')
+            description=submission.get('description')
+            organizationName=submission.get('organizationName')
+            reward=submission.get('reward')
+            deadline=submission.get('deadline')
+            teamCount=submission.get('teamCount')
+            embed=discord.Embed(title=f'{title}',description=f'{description}',colour=discord.Colour.purple())
+            embed.add_field(name='Category: ',value=category,inline=True)
+            embed.add_field(name='Organisation: ',value=organizationName,inline=True)
+            embed.add_field(name='Reward: ',value=reward,inline=False)
+            embed.add_field(name='Deadline: ',value=deadline,inline=True)
+            embed.add_field(name='Team Count: ',value=teamCount,inline=True)
+            embed.add_field(name='Link: ',value=url,inline=False)
+            await ctx.send(embed=embed)
+            await ctx.send('.................................................................................................................................................')
+        embed=discord.Embed(title=f'Displaying {c} search results for Kaggle Competitions.',colour=discord.Colour.gold())
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def listdaily(self,ctx):
+        listd=api.datasets_list_with_http_info(async_req=True)
+        result=listd.get()
+        print(result)
 
 
 def setup(client):
     client.add_cog(KaggleAPI(client)) 
+    
